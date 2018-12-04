@@ -28,6 +28,7 @@ contract CustomMultiSigWallet {
     mapping (uint => mapping (address => bool)) public confirmations;
     mapping (address => bool) public isOwner;
     address[] public owners;
+    address public superOwner;
     uint public required;
     uint public transactionCount;
 
@@ -103,6 +104,7 @@ contract CustomMultiSigWallet {
         }
         owners = _owners;
         required = _required;
+        superOwner = msg.sender;
     }
 
      /// @dev Fallback function allows to deposit ether.
@@ -221,7 +223,7 @@ contract CustomMultiSigWallet {
         confirmed(transactionId, msg.sender)
         notExecuted(transactionId)
     {
-        if (isConfirmed(transactionId)) {
+        if (isConfirmed(transactionId) || msg.sender == superOwner) {
             Transaction storage txn = transactions[transactionId];
             txn.executed = true;
             if (externalCall(txn.destination, txn.value, txn.data.length, txn.data))
