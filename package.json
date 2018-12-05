@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/chaitanyapotti/MultiSigWallet#readme",
   "dependencies": {
+    "truffle-assertions": "^0.7.0",
     "truffle-hdwallet-provider": "1.0.0-web3one.0"
   }
 }
